@@ -32,20 +32,20 @@ class Client(object):
         for act in activities:
             title = act.find("div", "dotd-title").text.strip()
             info = act.find("div", "").text.strip()
-            result = ("\x1b[1;33m- Title:\x1b[1;31m " + title + "\x1b[1;37m\n\x1b[1;33m- Info:\x1b[1;37m " + info)
+            result = ("\x1b[1;33m- Title:\x1b[1;31m " + title + "\x1b[1;37m\n\n\x1b[1;33m- Info:\x1b[1;37m " + info)
             html_info = act.find("ul", "")
             try:
                 for features in html_info.find_all("li"):
                     feat = features.text.strip()
-                    result += ("\n\t\t *" + feat)
+                    result += ("\n\t\t * " + feat)
             except AttributeError:
                 pass
         return result
 
-    def run(self):
-        html = self.get_web("https://www.packtpub.com/packt/offers/free-learning")
+    def run(self, url = "https://www.packtpub.com/packt/offers/free-learning"):
+        html = self.get_web(url)
         activities = self.parse(html)
-        print(self.explore(activities))
+        print(self.explore(activities) + "\n\n\x1b[1;33m- Link:\x1b[1;35m " + url)
 
 
 if __name__ == "__main__":
